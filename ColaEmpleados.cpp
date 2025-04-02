@@ -1,5 +1,4 @@
-//De la Paz Mendoza Ian ALexandro. 25A.
-//Clases y objetos.
+//Busquedas.
 
 #include <iostream>
 #include <string>
@@ -12,12 +11,18 @@ private: //Atributos deben de ir aqui
     int aprovadas;
     float promedio;
 public:
-    alumno() { nombre = " "; carrera = " "; aprovadas = 0; promedio = 0.0; } //constructor
+    alumno() { nombre = " "; carrera = " "; aprovadas = 0; promedio = 0.0; }
 
-    void setNombre(int nom) { nombre = nom; }
+    void setNombre(std::string nom) { nombre = nom; }
     void setCarrera(std::string carr) {carrera = carr; }
     void setAprovadas(int apro) { aprovadas = apro; }
     void setpromedio(float prom) { promedio = prom; }
+
+    std::string getNombre() const { return nombre; }
+    std::string getCarrera() const { return carrera; }
+    int getAprovadas() const { return aprovadas; }
+    float getPromedio() const { return promedio; }
+
 
 
     // sobrecarga de operadores.
@@ -28,7 +33,7 @@ public:
 
 
     bool operator==(const alumno& otro) const {
-        return promedio == otro.promedio;
+        return promedio == otro.promedio && nombre == otro.nombre && aprovadas == otro.aprovadas && carrera == otro.carrera; 
     }
 
     bool operator > (const alumno& otro) const {
@@ -100,6 +105,22 @@ class ColaEmpleado {
                 }
             }
         }
+
+        void buscar (const alumno& emp) const {
+            if (vacia()) {
+                std::cout << "\nCola vacia. " << std::endl;
+            }
+            else{
+                for (int i = frente; i <= final; i++){
+                    if(datos[i] == emp) {
+                        std::cout << "\nAlumno encontrado:\n" << datos[i] << std::endl;
+                        return;
+                    }
+                }
+
+                std:: cout << "\nNo se encontro ningun alumno." << std::endl;
+            }
+        }
     };
     
 
@@ -132,8 +153,8 @@ int main()//Mipila
     ColaEmpleado Micola;
     alumno JefePlanta, JefePersonal, emp;
     int op=0, num;
-    while (op != 5) {
-        std::cout << "\n \nBienvenido\nElige una opcion:\n1: Registrar alumnos.\n2: Mostrar todos los alumnos.\n3: Eliminar el ultimo alumno.\n4: Mostrar el ultimo alumno.\n5: Salir.\n\n";
+    while (op != 6) {
+        std::cout << "\n \nBienvenido\nElige una opcion:\n1: Registrar alumnos.\n2: Mostrar todos los alumnos.\n3: Eliminar el ultimo alumno.\n4: Mostrar el ultimo alumno. \n5: Buscar alumno. \n6: Salir.\n\n";
         std::cin >> op;
         switch (op){
             case 1:
@@ -156,7 +177,13 @@ int main()//Mipila
             case 4:
                 std::cout << "\nEl ultimo alumno registrado:" << Micola.recuperar() << std::endl;
                 break;
+
             case 5:
+            std::cout << "\n Inserte el alumno a buscar.\n";
+            std::cin >> emp;
+            Micola.buscar(emp);
+                break;
+            case 6:
                 std::cout << "\nGracias\n";
                 return 0;
             default:
